@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Task</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			width: 100%;
+			height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+		.field {
+			width: 300px;
+			height: 300px;
+			display: flex;
+			flex-wrap: wrap;
+		}
+		.field-item {
+			width: 100px;
+			height: 100px;
+			border: 1px solid #000;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 26px;
+		}
+
+		.selection-overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100vh;
+			display: none;
+			justify-content: center;
+			align-items: center;
+			background: rgba(51,51,51, 0.8);
+		}
+
+		.selection-modal {
+			width: 350px;
+			height: 240px;
+			background: #fff;
+			padding: 20px;
+		}
+
+		.selection-modal__title {
+			text-align: center;
+		}
+
+		.selection-modal__options {
+			margin: 0 auto;
+		}
+
+		.modal-options {
+			width: 210px;
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.modal-options__item {
+			width: 100px;
+			height: 100px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border: 1px solid #000;
+			font-size: 30px;
+			cursor: pointer;
+		}
+
+		.final-overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100vh;
+			display: none;
+			justify-content: center;
+			align-items: center;
+			background: rgba(51,51,51, 0.8);			
+		}
+
+		.final-modal {
+			width: 360px;
+			height: 240px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			background: #fff;
+			font-size: 24px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<section class="field">
+			<div class="field__item field-item"></div>
+			<div class="field__item field-item"></div>
+			<div class="field__item field-item"></div>
+			<div class="field__item field-item"></div>
+			<div class="field__item field-item"></div>
+			<div class="field__item field-item"></div>
+			<div class="field__item field-item"></div>
+			<div class="field__item field-item"></div>
+			<div class="field__item field-item"></div>
+		</section>	
+		<div class="selection-overlay" id="modal">
+			<div class="selection-modal">
+				<h3 class="selection-modal__title">Ваш выбор:</h3>
+				<div class="selection-modal__options modal-options">
+					<div class="modal-options__item" val = "X">X</div>
+					<div class="modal-options__item" val = "O">O</div>					 
+				</div>
+			</div>			
+		</div>
+		<div class="final-overlay" id="final">
+			<div class="final-modal">
+				<h3 class="final-modal__title">Поздравляем! Игрок <span id="winner"></span> победил</h3>
+			</div>			
+		</div>
+	</div>
+	<script type="text/javascript">
+		var squares = document.getElementsByClassName('field-item');
+		var modal = document.getElementById('modal');
+		var currentSquare;
+		var counter = 0;
+		var winner;
+		var currentPlayer;
+		
+		for (var i = 0; i < squares.length; i++) {
+			squares[i].addEventListener('click', function(e){
+				if (!e.target.classList.contains('selected')) {
+					modal.style.display = 'flex';
+					currentSquare = e.target;
+				}
+				e.target.classList.add('selected');
+			})
+		}
+
+
+
+		var options = document.getElementsByClassName('modal-options__item');
+		
+		for (var i = 0; i < options.length; i++) {
+			options[i].addEventListener('click', function(e){
+				currentSquare.innerText = e.target.getAttribute('val');
+				modal.style.display = 'none';
+				counter++;
+				checkExecution(counter);
+			})
+		}		
+
+		var final = document.getElementById('final');
+		var winner = document.getElementById('winner');
+
+		function checkExecution(val) {
+			if (val === 9) {
+				winner.innerText = '1';
+				final.style.display = 'flex';
+			}
+		}
+	</script>
+</body>
+</html>
