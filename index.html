@@ -74,15 +74,15 @@
 	<div class="container">
 		<h2>Ходит игрок <span id="player">1</span></h2>
 		<section class="field">
-			<div class="field__item field-item"></div>
-			<div class="field__item field-item"></div>
-			<div class="field__item field-item"></div>
-			<div class="field__item field-item"></div>
-			<div class="field__item field-item"></div>
-			<div class="field__item field-item"></div>
-			<div class="field__item field-item"></div>
-			<div class="field__item field-item"></div>
-			<div class="field__item field-item"></div>
+			<div class="field__item field-item" val="0"></div>
+			<div class="field__item field-item" val="1"></div>
+			<div class="field__item field-item" val="2"></div>
+			<div class="field__item field-item" val="3"></div>
+			<div class="field__item field-item" val="4"></div>
+			<div class="field__item field-item" val="5"></div>
+			<div class="field__item field-item" val="6"></div>
+			<div class="field__item field-item" val="7"></div>
+			<div class="field__item field-item" val="8"></div>
 		</section>	
 		<div class="final-overlay" id="final">
 			<div class="final-modal">
@@ -97,19 +97,55 @@
 		var counter = 0;
 		var winner;
 		var currentPlayer = 1;
+		let fieldResults = Array(9);
+		fieldResults.fill(NaN);
 		
 		for (var i = 0; i < squares.length; i++) {
 			squares[i].addEventListener('click', function(e){
 				if (!e.target.classList.contains('selected')) {
+					let index = e.target.getAttribute('val');
 					currentSquare = e.target;
 					counter++;
 					checkExecution(counter);
-					changePlayer(counter, currentSquare);
+					changePlayer(counter, currentSquare, index);
 				}
 				e.target.classList.add('selected');
 			})
 		}
-	
+		
+		let results = [];
+
+		function formField(arr, index, size) {
+			console.log(arr);
+			//console.log("fieldResults", fieldResults);
+	      if (results.length < 3) {
+	        results.push(arr.slice(index, size));
+	        formField(fieldResults, index+=3, size+=3);
+	      } else {
+	      	setTimeout(function() {
+	      		checkWinner(results)
+	      	}, 200);
+	      }
+   
+		}
+
+		function checkWinner(array) {
+			console.log(array);
+			for (var i = 0; i < array.length; i++) {
+				let item = array[i];
+				if(item.every( (val, i, arr) => val === arr[0] )){
+					alert('win!');
+				}
+			}
+			for (var i = 0; i < 3; i++) {
+				let temp = array.map(function(value,index) { return value[i]; });
+				if(temp.every( (val, i, arr) => val === arr[0] )){
+					alert('win!');
+				}
+			}
+			
+		}		
+
 		function selectItem() {
 
 		}	
@@ -125,16 +161,23 @@
 			}
 		}
 
-		function changePlayer(count, field) {
+		function changePlayer(count, field, ind) {
 			if (count%2 == 0) {
 				player.innerText = '1';
 				currentSquare.classList.add('lightblue');
 				field.innerText = '0';
+				fieldResults[ind] = 1;
+
 			} else {
 				player.innerText = '2';
 				currentSquare.classList.add('tomato');
 				field.innerText = 'X';
+				fieldResults[ind] = 2;
 			}
+			results = [];
+			formField(fieldResults, 0, 3);
+			//console.log("start");
+
 		}
 
 	</script>
