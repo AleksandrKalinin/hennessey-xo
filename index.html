@@ -146,28 +146,32 @@
       for (var i = 0; i < array.length; i++) {
         let item = array[i];
         if(item.every( (val, i, arr) => val === arr[0] )){
-          winner.innerText = `игрок ${item[0] - 1} победил`;
+          winner.innerText = `игрок ${currentPlayer} победил`;
           final.style.display = 'flex';
           flag = true;
         }
       }
+
       for (var i = 0; i < 3; i++) {
         let temp = array.map(function(value,index) { return value[i]; });
         if(temp.every( (val, i, arr) => val === arr[0] )){
-          winner.innerText = `игрок ${temp[0] - 1} победил`;
+          winner.innerText = `игрок ${currentPlayer} победил`;
           final.style.display = 'flex';
           flag = true;
         }
-      } 
-      if(!flag && counter == 9) {
+      }
+
+      if ( (array[0][0] == array[1][1] && array[1][1] == array[2][2]) || (array[0][2] == array[1][1] && array[1][1] == array[2][0]) ) {
+          winner.innerText = `игрок ${currentPlayer} победил`;
+          final.style.display = 'flex';
+          flag = true;        
+      }
+
+      if (!flag && counter == 9) {
         winner.innerText = `ничья`;
         final.style.display = 'flex';
       }   
     }   
-
-    function selectItem() {
-
-    } 
 
     var final = document.getElementById('final');
     var winner = document.getElementById('winner');
@@ -180,11 +184,13 @@
         currentSquare.classList.add('lightblue');
         field.innerText = '0';
         fieldResults[ind] = 1;
+        currentPlayer = 2;
       } else {
         player.innerText = '2';
         currentSquare.classList.add('tomato');
         field.innerText = 'X';
         fieldResults[ind] = 2;
+        currentPlayer = 1;
       }
       results = [];
       formField(fieldResults, 0, 3);
