@@ -106,17 +106,16 @@
     </div>
   </div>
   <script type="text/javascript">
-    var squares = document.getElementsByClassName('field-item');
-    var modal = document.getElementById('modal');
-    var currentSquare;
-    var counter = 0;
-    var winner;
-    var currentPlayer = 1;
+    let squares = document.getElementsByClassName('field-item');
+    let modal = document.getElementById('modal');
+    let currentSquare;
+    let counter = 0;
+    let currentPlayer = 1;
 
     let fieldResults = Array(9);
     fieldResults.fill(NaN);
     
-    for (var i = 0; i < squares.length; i++) {
+    for (let i = 0; i < squares.length; i++) {
       squares[i].addEventListener('click', function(e){
         if (!e.target.classList.contains('selected')) {
           let index = e.target.getAttribute('val');
@@ -143,7 +142,7 @@
 
     function checkWinner(array) {
       let flag = false;
-      for (var i = 0; i < array.length; i++) {
+      for (let i = 0; i < array.length; i++) {
         let item = array[i];
         if(item.every( (val, i, arr) => val === arr[0] )){
           winner.innerText = `игрок ${currentPlayer} победил`;
@@ -152,7 +151,7 @@
         }
       }
 
-      for (var i = 0; i < 3; i++) {
+      for (let i = 0; i < 3; i++) {
         let temp = array.map(function(value,index) { return value[i]; });
         if(temp.every( (val, i, arr) => val === arr[0] )){
           winner.innerText = `игрок ${currentPlayer} победил`;
@@ -173,10 +172,10 @@
       }   
     }   
 
-    var final = document.getElementById('final');
-    var winner = document.getElementById('winner');
-    var player = document.getElementById('player');
-    var againButton = document.getElementById('againButton');
+    let final = document.getElementById('final');
+    let winner = document.getElementById('winner');
+    let player = document.getElementById('player');
+    let againButton = document.getElementById('againButton');
 
     function changePlayer(count, field, ind) {
       if (count%2 == 0) {
@@ -200,7 +199,7 @@
       results = [];
       fieldResults = [];
       counter = 0;
-      for (var i = 0; i < squares.length; i++) {
+      for (let i = 0; i < squares.length; i++) {
         fieldResults[i] = NaN;
         squares[i].innerText = "";
         squares[i].classList.remove('selected');
