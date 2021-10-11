@@ -87,7 +87,7 @@
 <body>
   <div class="container">
     <h2>Ходит игрок <span id="player">1</span></h2>
-    <section class="field">
+    <section class="field" id="field">
       <div class="field__item field-item" val="0"></div>
       <div class="field__item field-item" val="1"></div>
       <div class="field__item field-item" val="2"></div>
@@ -107,25 +107,25 @@
   </div>
   <script type="text/javascript">
     let squares = document.getElementsByClassName('field-item');
+    let field = document.getElementById('field');
     let modal = document.getElementById('modal');
     let currentSquare;
     let counter = 0;
     let currentPlayer = 1;
-
     let fieldResults = Array(9);
     fieldResults.fill(NaN);
-    
-    for (let i = 0; i < squares.length; i++) {
-      squares[i].addEventListener('click', function(e){
-        if (!e.target.classList.contains('selected')) {
+
+    let selectSquare = function(e) {
+      if ( e.target.classList.contains('field-item') && (!e.target.classList.contains('selected')) ) {
           let index = e.target.getAttribute('val');
           currentSquare = e.target;
           counter++;
           changePlayer(counter, currentSquare, index);
-        }
-        e.target.classList.add('selected');
-      })
+      }
+      e.target.classList.add('selected');      
     }
+
+    field.addEventListener('click', selectSquare);
     
     let results = [];
 
